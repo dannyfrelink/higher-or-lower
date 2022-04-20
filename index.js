@@ -7,10 +7,7 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 
 app.get('/', (req, res) => {
-    res.render();
-});
-app.get('/detail', (req, res) => {
-    res.render();
+    res.render('home');
 });
 
 app.listen(PORT, () => {
