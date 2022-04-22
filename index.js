@@ -14,6 +14,10 @@ app.get('/', (req, res) => {
     res.render('home');
 });
 
+app.get('/chat', (req, res) => {
+    res.render('chat');
+});
+
 io.on('connection', (socket) => {
     io.emit('connected', 'a user has connected');
 
@@ -26,7 +30,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('chat-message', (msg) => {
-        io.emit('chat-message', { msg, nickname: socket.nickname });
+        io.emit('chat-message', msg);
     });
 });
 

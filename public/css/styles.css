@@ -4,7 +4,7 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
-#form {
+#chat {
     background: rgba(0, 0, 0, 0.15);
     padding: 0.25rem;
     position: fixed;
@@ -17,7 +17,7 @@ body {
     backdrop-filter: blur(10px);
 }
 
-#input {
+#chat-message {
     border: none;
     padding: 0 1rem;
     flex-grow: 1;
@@ -25,11 +25,11 @@ body {
     margin: 0.25rem;
 }
 
-#input:focus {
+#chat-message:focus {
     outline: none;
 }
 
-#form > button {
+#chat > button {
     background: #333;
     border: none;
     padding: 0 1rem;
