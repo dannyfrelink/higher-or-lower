@@ -2,3 +2,59 @@
     padding: 0;
     margin: 0;
 }
+
+body {
+    background-color: bisque;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    height: 100vh;
+    margin: auto;
+}
+
+main div {
+    display: flex;
+    flex-direction: column;
+    margin: 0 5vw;
+}
+
+main div button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    background-color: unset;
+    color: #AC3B61;
+    font-weight: bold;
+    font-size: 2vw;
+    border: 0.25vw solid #AC3B61;
+    border-radius: 0.8vw;
+    padding: 0.5vw 0.75vw;
+    margin: 1.2vw 0;
+}
+
+main div button:first-of-type::after {
+    content: '\25B2';
+}
+
+main div button:last-of-type::after {
+    content: '\25bc';
+}
+
+main div button::after {
+    font-size: 1.5vw;
+    margin-left: 0.75vw;
+}
+
+main div button:hover {
+    background-color: #AC3B61;
+    color: white;
+}
+
+main img {
+    width: 25vw;
+    height: 34.73vw;
+}
