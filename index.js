@@ -21,6 +21,14 @@ app.get('/game', (req, res) => {
         .then(res => res.json())
         .then(data => filterData(data.cards))
         .then(data => {
+            io.on('connection', (socket) => {
+                socket.on('card-choice', (choice) => {
+                    data.shift()
+                    console.log(data)
+                    io.emit('card-choice', choice, data)
+                })
+            });
+
             res.render('game', {
                 data
             })
@@ -40,21 +48,22 @@ const filterData = (data) => {
     });
 }
 
-io.on('connection', (socket) => {
-    io.emit('connected', 'a user has connected');
 
-    socket.on('disconnect', () => {
-        io.emit('disconnected', 'a user has disconnected');
-    });
 
-    socket.on('send-nickname', (nickname) => {
-        socket.nickname = nickname;
-    });
+// io.emit('connected', 'a user has connected');
 
-    socket.on('chat-message', (msg) => {
-        io.emit('chat-message', msg);
-    });
-});
+// socket.on('disconnect', () => {
+//     io.emit('disconnected', 'a user has disconnected');
+// });
+
+// socket.on('send-nickname', (nickname) => {
+//     socket.nickname = nickname;
+// });
+
+// socket.on('chat-message', (msg) => {
+//     io.emit('chat-message', msg);
+// });
+// });
 
 server.listen(PORT, () => {
     console.log(`listening on localhost:${PORT}`);

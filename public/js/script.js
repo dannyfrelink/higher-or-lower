@@ -1,8 +1,36 @@
 const socket = io();
-// const chatForm = document.getElementById('chat');
-// const chatMessage = document.getElementById('chat-message');
+const higherLowerButtons = document.querySelectorAll('button');
+const openCard = document.querySelector('main>img');
+const closedCard = document.querySelector('#flip-card-inner img:last-of-type');
+const flipContainer = document.querySelector('#flip-card-inner');
 
-if (window.location.pathname === '/game') {
+higherLowerButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+        const clickValue = e.target.id;
+        socket.emit('card-choice', {
+            choice: clickValue
+        })
+    });
+});
+
+socket.on('card-choice', (choice, data) => {
+    flipContainer.classList.add('flip');
+    if (choice.choice === 'higher') {
+        console.log('yay')
+    } else if (choice.choice === 'lower') {
+        console.log('aaaawww')
+    }
+
+    setTimeout(() => {
+        flipContainer.classList.remove('flip');
+    }, 2200);
+    setTimeout(() => {
+        openCard.src = data[0].image;
+        closedCard.src = data[1].image;
+    }, 3000);
+});
+
+// if (window.location.pathname === '/game') {
     // const username = new URLSearchParams(window.location.search).get('nickname')
 
     // chatForm.addEventListener('submit', (event) => {
@@ -36,4 +64,4 @@ if (window.location.pathname === '/game') {
     //     messages.appendChild(item);
     //     window.scrollTo(0, document.body.scrollHeight);
     // });
-}
+// }

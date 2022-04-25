@@ -9,10 +9,18 @@
     <main>
         <img src="<%= data[0].image %>" alt="Base card">
         <div>
-            <button>Higher</button>
-            <button>Lower</button>
+            <button id="higher">Higher</button>
+            <button id="lower">Lower</button>
         </div>
-        <img src="images/back-card.png" alt="Guess card">
+        <div id="flip-card">
+            <div id="flip-card-inner">
+                <img src="images/back-card.png" alt="Hidden card">
+                <img src="<%= data[1].image %>" alt="Revealed card">
+            </div>
+        </div>
+        <ul id="test">
+
+        </ul>
     </main>
 </body>
 
