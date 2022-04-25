@@ -5,6 +5,7 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require('socket.io');
 const io = new Server(server);
+const fetch = require('node-fetch');
 
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
@@ -14,9 +15,30 @@ app.get('/', (req, res) => {
     res.render('home');
 });
 
-app.get('/chat', (req, res) => {
-    res.render('chat');
+app.get('/game', (req, res) => {
+    let cardsAPI = 'https://deckofcardsapi.com/api/deck/new/draw/?count=52';
+    fetch(cardsAPI)
+        .then(res => res.json())
+        .then(data => filterData(data.cards))
+        .then(data => {
+            res.render('game', {
+                data
+            })
+        })
+        .catch(err => console.log(err));
+
 });
+
+const filterData = (data) => {
+    return data.map(card => {
+        return {
+            code: card.code,
+            image: card.image,
+            value: card.value,
+            suit: card.suit
+        }
+    });
+}
 
 io.on('connection', (socket) => {
     io.emit('connected', 'a user has connected');
