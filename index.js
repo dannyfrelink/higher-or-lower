@@ -19,13 +19,23 @@ app.get('/game', (req, res) => {
     let cardsAPI = 'https://deckofcardsapi.com/api/deck/new/draw/?count=52';
     fetch(cardsAPI)
         .then(res => res.json())
-        .then(data => filterData(data.cards))
+        .then(data => changeValues(data.cards))
+        .then(data => filterData(data))
         .then(data => {
+            console.log(data)
+
+
             io.on('connection', (socket) => {
                 socket.on('card-choice', (choice) => {
-                    data.shift()
-                    console.log(data)
-                    io.emit('card-choice', choice, data)
+
+                    const values = {
+                        valueBase: data[0].value,
+                        valueGuess: data[1].value
+                    }
+                    // console.log(valueBase)
+                    // console.log(valueGuess);
+                    data.shift();
+                    io.emit('card-choice', choice, data, values)
                 })
             });
 
@@ -34,8 +44,23 @@ app.get('/game', (req, res) => {
             })
         })
         .catch(err => console.log(err));
-
 });
+
+const changeValues = (data) => {
+    data.map(d => {
+        // Meerder replaces in 1: https://stackoverflow.com/questions/15604140/replace-multiple-strings-with-multiple-other-strings
+        const changes = {
+            JACK: 11,
+            QUEEN: 12,
+            KING: 13,
+            ACE: 14
+        }
+        d.value = d.value.replace(/JACK|QUEEN|KING|ACE/, function (matched) {
+            return changes[matched];
+        });
+    });
+    return data
+}
 
 const filterData = (data) => {
     return data.map(card => {

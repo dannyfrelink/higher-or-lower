@@ -13,12 +13,14 @@ higherLowerButtons.forEach(button => {
     });
 });
 
-socket.on('card-choice', (choice, data) => {
+socket.on('card-choice', (choice, data, values) => {
+    console.log(values)
+
     flipContainer.classList.add('flip');
-    if (choice.choice === 'higher') {
-        console.log('yay')
-    } else if (choice.choice === 'lower') {
-        console.log('aaaawww')
+    if (choice.choice === 'higher' && values.valueGuess > values.valueBase) {
+        console.log('higher')
+    } else if (choice.choice === 'lower' && values.valueBase > values.valueGuess) {
+        console.log('lower')
     }
 
     setTimeout(() => {
