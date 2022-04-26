@@ -71,23 +71,6 @@ const filterData = (data) => {
     });
 }
 
-
-
-// io.emit('connected', 'a user has connected');
-
-// socket.on('disconnect', () => {
-//     io.emit('disconnected', 'a user has disconnected');
-// });
-
-// socket.on('send-nickname', (nickname) => {
-//     socket.nickname = nickname;
-// });
-
-// socket.on('chat-message', (msg) => {
-//     io.emit('chat-message', msg);
-// });
-// });
-
 server.listen(PORT, () => {
     console.log(`listening on localhost:${PORT}`);
 });
