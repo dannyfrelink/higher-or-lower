@@ -49,7 +49,9 @@ main div button::after {
     margin-left: 0.75vw;
 }
 
-main div button:hover {
+main div button:hover,
+main div button:focus {
+    outline: none;
     background-color: #AC3B61;
     color: white;
 }

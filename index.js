@@ -16,32 +16,38 @@ app.get('/', (req, res) => {
 });
 
 app.get('/game', (req, res) => {
-    let cardsAPI = 'https://deckofcardsapi.com/api/deck/new/draw/?count=52';
-    fetch(cardsAPI)
+    fetch('https://deckofcardsapi.com/api/deck/new/shuffle/')
         .then(res => res.json())
-        .then(data => changeValues(data.cards))
-        .then(data => filterData(data))
-        .then(data => {
-            console.log(data)
-
-
-            io.on('connection', (socket) => {
-                socket.on('card-choice', (choice) => {
-                    const values = {
-                        valueBase: data[0].value,
-                        valueGuess: data[1].value
-                    }
-                    data.shift();
-                    io.emit('card-choice', choice, data, values)
+        .then(dataShuffle => {
+            let cardsAPI = `https://deckofcardsapi.com/api/deck/${dataShuffle.deck_id}/draw/?count=3`;
+            fetch(cardsAPI)
+                .then(res => res.json())
+                .then(data => changeValues(data.cards))
+                .then(filterData)
+                .then(data => {
+                    io.on('connection', (socket) => {
+                        socket.on('card-choice', (choice) => {
+                            const values = {
+                                valueBase: data[0].value,
+                                valueGuess: data[1].value
+                            }
+                            data.shift();
+                            io.emit('card-choice', choice, data, values)
+                        });
+                    });
+                    res.render('game', {
+                        data
+                    });
                 })
-            });
-
-            res.render('game', {
-                data
-            });
+                .catch(err => console.log(err));
         })
         .catch(err => console.log(err));
 });
+
+// const test = (data) => {
+//     //     console.log(test[0])
+
+// }
 
 const changeValues = (data) => {
     data.map(d => {

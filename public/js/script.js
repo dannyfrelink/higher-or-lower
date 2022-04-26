@@ -14,13 +14,15 @@ higherLowerButtons.forEach(button => {
 });
 
 socket.on('card-choice', (choice, data, values) => {
+    console.log(data)
+    console.log(choice.choice)
     console.log(values)
-
     flipContainer.classList.add('flip');
+
     if (choice.choice === 'higher' && values.valueGuess > values.valueBase) {
-        console.log('higher')
+        console.log('correct')
     } else if (choice.choice === 'lower' && values.valueBase > values.valueGuess) {
-        console.log('lower')
+        console.log('correct')
     }
 
     setTimeout(() => {
