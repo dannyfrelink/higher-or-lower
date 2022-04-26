@@ -26,7 +26,7 @@ app.get('/game', (req, res) => {
                 .then(filterData)
                 .then(data => {
                     io.on('connection', (socket) => {
-                        socket.on('card-choice', (choice) => {
+                        socket.on('card-choice', choice => {
                             const values = {
                                 valueBase: data[0].value,
                                 valueGuess: data[1].value
