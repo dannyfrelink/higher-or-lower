@@ -44,11 +44,6 @@ app.get('/game', (req, res) => {
         .catch(err => console.log(err));
 });
 
-// const test = (data) => {
-//     //     console.log(test[0])
-
-// }
-
 const changeValues = (data) => {
     data.map(d => {
         // Meerder replaces in 1: https://stackoverflow.com/questions/15604140/replace-multiple-strings-with-multiple-other-strings
