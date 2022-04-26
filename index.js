@@ -27,13 +27,10 @@ app.get('/game', (req, res) => {
 
             io.on('connection', (socket) => {
                 socket.on('card-choice', (choice) => {
-
                     const values = {
                         valueBase: data[0].value,
                         valueGuess: data[1].value
                     }
-                    // console.log(valueBase)
-                    // console.log(valueGuess);
                     data.shift();
                     io.emit('card-choice', choice, data, values)
                 })
@@ -41,7 +38,7 @@ app.get('/game', (req, res) => {
 
             res.render('game', {
                 data
-            })
+            });
         })
         .catch(err => console.log(err));
 });
