@@ -37,6 +37,10 @@ app.get('/game', async (req, res) => {
     if (!cardsData) {
         cardsData = await fetchCards();
     }
+    const values = {
+        valueBase: cardsData[0].value,
+        valueGuess: cardsData[1].value
+    }
     res.render('game', {
         data: cardsData
     });
@@ -44,10 +48,6 @@ app.get('/game', async (req, res) => {
 
 io.on('connection', (socket) => {
     socket.on('card-choice', async choice => {
-        const values = await {
-            valueBase: cardsData[0].value,
-            valueGuess: cardsData[1].value
-        }
         const correctGuess = (choice.choice === 'higher' && values.valueGuess >= values.valueBase) || (choice.choice === 'lower' && values.valueGuess <= values.valueBase)
         if (correctGuess) {
             console.log('correct')
