@@ -79,12 +79,13 @@ const changeValues = (data) => {
     data.map(d => {
         // Meerder replaces in 1: https://stackoverflow.com/questions/15604140/replace-multiple-strings-with-multiple-other-strings
         const changes = {
-            JACK: 11,
-            QUEEN: 12,
-            KING: 13,
-            ACE: 14
+            10: 91,
+            JACK: 92,
+            QUEEN: 93,
+            KING: 94,
+            ACE: 95
         }
-        d.value = d.value.replace(/JACK|QUEEN|KING|ACE/, function (matched) {
+        d.value = d.value.replace(/10|JACK|QUEEN|KING|ACE/, function (matched) {
             return changes[matched];
         });
     });
