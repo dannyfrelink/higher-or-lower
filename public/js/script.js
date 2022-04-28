@@ -14,18 +14,13 @@ higherLowerButtons.forEach(button => {
 });
 
 socket.on('card-choice', (choice, data, values) => {
-    console.log(data)
-    console.log(choice.choice)
-    console.log(values)
     flipContainer.classList.add('flip');
-
-
 
     setTimeout(() => {
         flipContainer.classList.remove('flip');
-    }, 2200);
+    }, 1500);
     setTimeout(() => {
         openCard.src = data[0].image;
         closedCard.src = data[1].image;
-    }, 3000);
+    }, 2000);
 });
