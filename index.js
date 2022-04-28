@@ -44,7 +44,7 @@ app.get('/game', async (req, res) => {
 
 io.on('connection', (socket) => {
     socket.on('card-choice', async choice => {
-        const values = {
+        const values = await {
             valueBase: cardsData[0].value,
             valueGuess: cardsData[1].value
         }
