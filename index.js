@@ -15,33 +15,64 @@ app.get('/', (req, res) => {
     res.render('home');
 });
 
-app.get('/game', (req, res) => {
-    fetch('https://deckofcardsapi.com/api/deck/new/shuffle/')
+const fetchCards = () => {
+    return fetch('https://deckofcardsapi.com/api/deck/new/shuffle/')
         .then(res => res.json())
         .then(dataShuffle => {
-            let cardsAPI = `https://deckofcardsapi.com/api/deck/${dataShuffle.deck_id}/draw/?count=3`;
-            fetch(cardsAPI)
+            let cardsAPI = `https://deckofcardsapi.com/api/deck/${dataShuffle.deck_id}/draw/?count=52`;
+            return fetch(cardsAPI)
                 .then(res => res.json())
-                .then(data => changeValues(data.cards))
-                .then(filterData)
+                // .then(data => changeValues(data.cards))
+                .then(data => filterData(data.cards))
                 .then(data => {
-                    io.on('connection', (socket) => {
-                        socket.on('card-choice', choice => {
-                            const values = {
-                                valueBase: data[0].value,
-                                valueGuess: data[1].value
-                            }
-                            data.shift();
-                            io.emit('card-choice', choice, data, values)
-                        });
-                    });
-                    res.render('game', {
-                        data
-                    });
+                    return data
                 })
-                .catch(err => console.log(err));
         })
         .catch(err => console.log(err));
+}
+
+let cardsData = null;
+
+app.get('/game', async (req, res) => {
+    if (!cardsData) {
+        cardsData = await fetchCards();
+    }
+    // // const values = {
+    // //     valueBase: cardsData[0].value,
+    // //     valueGuess: cardsData[1].value
+    // // }
+    // io.emit('card-choice', cardsData)
+    res.render('game', {
+        data: cardsData
+    });
+});
+
+io.on('connection', (socket) => {
+    socket.on('card-choice', async choice => {
+        await changeValues(cardsData);
+        const values = {
+            valueBase: cardsData[0].value,
+            valueGuess: cardsData[1].value
+        }
+        console.log(choice.choice)
+        console.log(values.valueGuess)
+        console.log(values.valueBase)
+        if (choice.choice === 'higher') {
+            if (values.valueGuess > values.valueBase) {
+                console.log('goed');
+            } else {
+                console.log('fout');
+            }
+            // console.log('correct')
+        }
+        // if (choice.choice === 'lower' && values.valueGuess < values.valueBase) {
+        //     console.log('correct')
+        // }
+
+
+        cardsData.shift();
+        io.emit('card-choice', choice, cardsData, values)
+    });
 });
 
 const changeValues = (data) => {

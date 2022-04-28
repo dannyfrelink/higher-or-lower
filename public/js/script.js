@@ -19,11 +19,7 @@ socket.on('card-choice', (choice, data, values) => {
     console.log(values)
     flipContainer.classList.add('flip');
 
-    if (choice.choice === 'higher' && values.valueGuess > values.valueBase) {
-        console.log('correct')
-    } else if (choice.choice === 'lower' && values.valueBase > values.valueGuess) {
-        console.log('correct')
-    }
+
 
     setTimeout(() => {
         flipContainer.classList.remove('flip');
