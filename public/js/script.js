@@ -1,4 +1,20 @@
 const socket = io();
+// Home page
+const usernameForm = document.querySelector('#username');
+const usernameInput = document.querySelector('#username-input');
+
+if (usernameForm) {
+    usernameForm.addEventListener('submit', () => {
+        const username = usernameInput.value;
+        socket.emit('new-user', {
+            username
+        });
+        socket.emit('join-room');
+    });
+}
+
+
+// Game page
 const higherLowerButtons = document.querySelectorAll('button');
 const openCard = document.querySelector('main>img');
 const closedCard = document.querySelector('#flip-card-inner img:last-of-type');
@@ -11,6 +27,17 @@ higherLowerButtons.forEach(button => {
             choice: clickValue
         })
     });
+});
+
+
+// socket.emit('new-user');
+
+socket.on('joined-room', (users) => {
+    console.log(users)
+});
+
+socket.on('', () => {
+
 });
 
 socket.on('card-choice', (choice, data, values) => {

@@ -6,6 +6,7 @@ const server = http.createServer(app);
 const { Server } = require('socket.io');
 const io = new Server(server);
 const fetch = require('node-fetch');
+const { createBrotliCompress } = require('zlib');
 
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
@@ -42,8 +43,64 @@ app.get('/game', async (req, res) => {
     });
 });
 
+// let scores
+// if (users) {
+//     scores = users.map(user => {
+//         return {
+//             [user.id]: 0
+//         }
+//     })
+// }
+// console.log(scores)
+
+let counterUsers = 1;
+let counterRooms = 1;
+let users = [];
+let room;
+
 io.on('connection', (socket) => {
-    socket.on('card-choice', async choice => {
+    socket.on('join-room', () => {
+        socket.join(room)
+    })
+
+    socket.on('new-user', (username) => {
+        if (counterUsers > 4) {
+            counterRooms++
+            counterUsers = 1
+        }
+        room = `room${counterRooms}`
+        const user = {
+            [counterRooms]: {
+                [counterUsers]: {
+                    username,
+                    id: socket.id
+                }
+            }
+        }
+        users.push(user)
+        socket.to(room).emit('joined-room', users)
+        counterUsers++
+    })
+
+
+
+
+
+    // socket.on('join-server', (username) => {
+    //     const user = {
+    //         username,
+    //         id: socket.id
+    //     }
+    //     users.push(user);
+    //     io.emit('new-user', users);
+    // });
+
+    // socket.on('join-room', (roomName, cb) => {
+    //     socket.join(roomName);
+    //     // cb(messages[roomName]);
+    // })
+
+    socket.on('card-choice', (choice) => {
         if (cardsData) {
             const values = {
                 valueBase: cardsData[0].value,
@@ -56,12 +113,18 @@ io.on('connection', (socket) => {
                 console.log('fout')
             }
 
-
-
             cardsData.shift();
+            // socket.to(roomName).emit('card-choice', choice, cardsData, values)
+
+            // cardsData.shift();
             io.emit('card-choice', choice, cardsData, values)
         }
     });
+
+    // socket.on('disconnect', () => {
+    //     users = users.filter(u => u.id !== socket.id);
+    //     io.emit('new-user', users)
+    // })
 });
 
 const changeValues = (data) => {
