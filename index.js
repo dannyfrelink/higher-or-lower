@@ -65,7 +65,7 @@ io.on('connection', (socket) => {
     })
 
     socket.on('new-user', (username) => {
-        if (counterUsers === 4) {
+        if (counterUsers > 4) {
             counterRooms++
             counterUsers = 1
         }
@@ -78,6 +78,7 @@ io.on('connection', (socket) => {
             }
         }
         users.push(user)
+        // console.log(users)
         socket.to(room).emit('joined-room', users, room)
         counterUsers++
     })
@@ -121,10 +122,24 @@ io.on('connection', (socket) => {
         }
     });
 
-    // socket.on('disconnect', () => {
-    //     users = users.filter(u => u.id !== socket.id);
-    //     io.emit('new-user', users)
-    // })
+    socket.on('disconnect', () => {
+        users.forEach(user => {
+            Object.values(user)
+                .filter(value => {
+                    Object.values(value)
+                        .filter(v => {
+                            console.log(v.id)
+                            console.log(socket.id)
+                            // v.id !== socket.id
+                        });
+                })
+        })
+        // console.log(users)
+        // users = users.filter(u => {
+        //     console.log(u.)
+        // });
+        io.emit('new-user', users)
+    })
 });
 
 const changeValues = (data) => {
