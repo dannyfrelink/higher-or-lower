@@ -9,10 +9,10 @@ if (usernameForm) {
         socket.emit('new-user', {
             username
         });
-        socket.emit('join-room');
     });
 }
 
+socket.emit('join-room');
 
 // Game page
 const higherLowerButtons = document.querySelectorAll('button');
@@ -29,11 +29,8 @@ higherLowerButtons.forEach(button => {
     });
 });
 
-
-// socket.emit('new-user');
-
-socket.on('joined-room', (users) => {
-    console.log(users)
+socket.on('joined-room', (users, room) => {
+    console.log(room)
 });
 
 socket.on('', () => {

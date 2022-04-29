@@ -60,15 +60,15 @@ let room;
 
 io.on('connection', (socket) => {
     socket.on('join-room', () => {
+        room = `room${counterRooms}`
         socket.join(room)
     })
 
     socket.on('new-user', (username) => {
-        if (counterUsers > 4) {
+        if (counterUsers === 4) {
             counterRooms++
             counterUsers = 1
         }
-        room = `room${counterRooms}`
         const user = {
             [counterRooms]: {
                 [counterUsers]: {
@@ -78,7 +78,7 @@ io.on('connection', (socket) => {
             }
         }
         users.push(user)
-        socket.to(room).emit('joined-room', users)
+        socket.to(room).emit('joined-room', users, room)
         counterUsers++
     })
 
