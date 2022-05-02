@@ -128,7 +128,8 @@ io.on('connection', (socket) => {
                 .filter(value => {
                     Object.values(value)
                         .filter(v => {
-                            console.log(v.id)
+                            // v.id !== socket.id
+                            // console.log(v.id)
                             console.log(socket.id)
                             // v.id !== socket.id
                         });
