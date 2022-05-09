@@ -1,17 +1,16 @@
 const socket = io();
-
 // Home page
-const usernameForm = document.querySelector('#username');
-const usernameInput = document.querySelector('#username-input');
+// const usernameForm = document.querySelector('#username');
+// const usernameInput = document.querySelector('#username-input');
 
-if (window.location.pathname === '/') {
-    usernameForm.addEventListener('submit', () => {
-        const username = usernameInput.value;
-        socket.emit('new-user', {
-            username
-        });
-    });
-}
+// if (window.location.pathname === '/') {
+//     usernameForm.addEventListener('submit', () => {
+//         const username = usernameInput.value;
+//         socket.emit('set-name', {
+//             username
+//         });
+//     });
+// }
 
 // Game page
 const leaveRoomButton = document.querySelector('#leave-room');
@@ -34,20 +33,25 @@ if (window.location.pathname === '/game') {
             });
         });
     });
+
+    socket.on('turn', (id) => {
+        console.log('Opgeslagen id: ', id)
+        console.log('Socket id nu: ', socket.id)
+        if (socket.id === id) {
+            console.log('test')
+        }
+    })
+
+    socket.on('card-choice', (choice, data) => {
+        // console.log('My id:', socket.id)
+        flipContainer.classList.add('flip');
+
+        setTimeout(() => {
+            flipContainer.classList.remove('flip');
+        }, 1500);
+        setTimeout(() => {
+            openCard.src = data[0].image;
+            closedCard.src = data[1].image;
+        }, 2000);
+    });
 }
-
-socket.on('your-turn', () => {
-    console.log('test')
-})
-
-socket.on('card-choice', (choice, data) => {
-    flipContainer.classList.add('flip');
-
-    setTimeout(() => {
-        flipContainer.classList.remove('flip');
-    }, 1500);
-    setTimeout(() => {
-        openCard.src = data[0].image;
-        closedCard.src = data[1].image;
-    }, 2000);
-});

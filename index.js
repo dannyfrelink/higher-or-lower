@@ -50,12 +50,30 @@ app.get('/game', async (req, res) => {
 // }
 // console.log(scores)
 
-let users = [];
+let users = {};
 
 io.on('connection', (socket) => {
-    socket.on('new-user', () => {
-        users.push(socket);
-    });
+    // users.forEach(u => {
+    if (!(socket.id in users)) {
+        console.log(users);
+        users[socket.id] = { id: socket.id }
+        // users['id'] = socket.id
+        // users = Object.assign({ id: socket.id })
+        // users = {
+        //     ...users,
+        //     id: socket.id
+        // }
+    }
+    // })
+
+    socket.on('disconnect', socket => {
+        delete users[socket.id]
+    })
+
+
+    // socket.on('set-name', (name) => {
+
+    // });
 
     socket.on('card-choice', (choice) => {
         if (cardsData) {
@@ -78,11 +96,12 @@ io.on('connection', (socket) => {
     let turn = 0;
 
     socket.on('pass-turn', () => {
-        turn++;
-        if (turn > users.length - 1) {
-            turn = 0
+        console.log(users)
+        turn++
+        if (turn > Object.keys(users).length) {
+            turn = 0;
         }
-        users[turn].emit('your-turn');
+        io.emit('turn', Object.values(users)[turn]);
     });
 });
 
@@ -106,10 +125,10 @@ const changeValues = (data) => {
 const filterData = (data) => {
     return data.map(card => {
         return {
-            code: card.code,
+            // code: card.code,
             image: card.image,
             value: card.value,
-            suit: card.suit
+            // suit: card.suit
         }
     });
 }
