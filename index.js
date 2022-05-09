@@ -15,6 +15,8 @@ app.get('/', (req, res) => {
     res.render('home');
 });
 
+let cardsData = null
+
 const fetchCards = () => {
     return fetch('https://deckofcardsapi.com/api/deck/new/shuffle/')
         .then(res => res.json())
@@ -25,18 +27,14 @@ const fetchCards = () => {
                 .then(data => changeValues(data.cards))
                 .then(filterData)
                 .then(data => {
-                    return data
+                    cardsData = data;
                 })
         })
         .catch(err => console.log(err));
 }
-
-let cardsData = null;
+fetchCards()
 
 app.get('/game', async (req, res) => {
-    if (!cardsData) {
-        cardsData = await fetchCards();
-    }
     res.render('game', {
         data: cardsData
     });
@@ -52,53 +50,13 @@ app.get('/game', async (req, res) => {
 // }
 // console.log(scores)
 
-let counterUsers = 1;
-let counterRooms = 1;
+// let counterUsers = 1;
 let users = [];
-let room;
 
 io.on('connection', (socket) => {
-    socket.on('join-room', () => {
-        room = `room${counterRooms}`
-        socket.join(room)
-    })
-
-    socket.on('new-user', (username) => {
-        if (counterUsers > 4) {
-            counterRooms++
-            counterUsers = 1
-        }
-        const user = {
-            [counterRooms]: {
-                [counterUsers]: {
-                    username,
-                    id: socket.id
-                }
-            }
-        }
-        users.push(user)
-        // console.log(users)
-        socket.to(room).emit('joined-room', users, room)
-        counterUsers++
-    })
-
-
-
-
-
-    // socket.on('join-server', (username) => {
-    //     const user = {
-    //         username,
-    //         id: socket.id
-    //     }
-    //     users.push(user);
-    //     io.emit('new-user', users);
-    // });
-
-    // socket.on('join-room', (roomName, cb) => {
-    //     socket.join(roomName);
-    //     // cb(messages[roomName]);
-    // })
+    socket.on('new-user', () => {
+        users.push(socket);
+    });
 
     socket.on('card-choice', (choice) => {
         if (cardsData) {
@@ -114,26 +72,40 @@ io.on('connection', (socket) => {
             }
 
             cardsData.shift();
-            // socket.to(roomName).emit('card-choice', choice, cardsData, values)
-
-            // cardsData.shift();
             io.emit('card-choice', choice, cardsData, values)
         }
     });
 
+    let turn = 0
+    let turnCounter = 0
+
+    const nextTurn = () => {
+        turn = turnCounter++ % players.length;
+        players[turn].emit('your_turn');
+    }
+
+    socket.on('pass-turn', () => {
+        if (players[turn] == socket) {
+            nextTurn();
+        }
+    })
+
     socket.on('disconnect', () => {
-        users.forEach(user => {
-            Object.values(user)
-                .filter(value => {
-                    Object.values(value)
-                        .filter(v => {
-                            // v.id !== socket.id
-                            // console.log(v.id)
-                            console.log(socket.id)
-                            // v.id !== socket.id
-                        });
-                })
-        })
+        // users.splice(users.indexOf(socket), 1)
+        // console.log(users)
+
+        // users.forEach(user => {
+        //     Object.values(user)
+        //         .filter(value => {
+        //             Object.values(value)
+        //                 .filter(v => {
+        //                     // v.id !== socket.id
+        //                     // console.log(v.id)
+        //                     // console.log(socket.id)
+        //                     // v.id !== socket.id
+        //                 });
+        //         })
+        // })
         // console.log(users)
         // users = users.filter(u => {
         //     console.log(u.)

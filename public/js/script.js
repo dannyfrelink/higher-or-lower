@@ -45,7 +45,7 @@ socket.on('joined-room', (users, room) => {
 
 // });
 
-socket.on('card-choice', (choice, data, values) => {
+socket.on('card-choice', data => {
     flipContainer.classList.add('flip');
 
     setTimeout(() => {
