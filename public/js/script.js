@@ -28,15 +28,19 @@ if (window.location.pathname === '/game') {
     higherLowerButtons.forEach(button => {
         button.addEventListener('click', (e) => {
             const clickValue = e.target.id;
+            socket.emit('pass-turn');
             socket.emit('card-choice', {
                 choice: clickValue
             });
-            socket.emit('pass-turn');
         });
     });
 }
 
-socket.on('card-choice', data => {
+socket.on('your-turn', () => {
+    console.log('test')
+})
+
+socket.on('card-choice', (choice, data) => {
     flipContainer.classList.add('flip');
 
     setTimeout(() => {

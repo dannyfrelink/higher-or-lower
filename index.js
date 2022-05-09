@@ -50,12 +50,11 @@ app.get('/game', async (req, res) => {
 // }
 // console.log(scores)
 
-// let counterUsers = 1;
 let users = [];
 
 io.on('connection', (socket) => {
     socket.on('new-user', () => {
-        users.push(socket.id);
+        users.push(socket);
     });
 
     socket.on('card-choice', (choice) => {
@@ -76,18 +75,14 @@ io.on('connection', (socket) => {
         }
     });
 
-    let turn = 0
-    let turnCounter = 0
-
-    const nextTurn = () => {
-        turn = turnCounter++ % players.length;
-        players[turn].emit('your-turn');
-    }
+    let turn = 0;
 
     socket.on('pass-turn', () => {
-        if (players[turn] == socket) {
-            nextTurn();
+        turn++;
+        if (turn > users.length - 1) {
+            turn = 0
         }
+        users[turn].emit('your-turn');
     });
 });
 
