@@ -55,7 +55,7 @@ let users = [];
 
 io.on('connection', (socket) => {
     socket.on('new-user', () => {
-        users.push(socket);
+        users.push(socket.id);
     });
 
     socket.on('card-choice', (choice) => {
@@ -64,15 +64,15 @@ io.on('connection', (socket) => {
                 valueBase: cardsData[0].value,
                 valueGuess: cardsData[1].value
             }
-            const correctGuess = (choice.choice === 'higher' && values.valueGuess >= values.valueBase) || (choice.choice === 'lower' && values.valueGuess <= values.valueBase)
+            const correctGuess = (choice.choice === 'higher' && values.valueGuess >= values.valueBase) || (choice.choice === 'lower' && values.valueGuess <= values.valueBase);
             if (correctGuess) {
-                console.log('correct')
+                console.log('correct');
             } else {
-                console.log('fout')
+                console.log('fout');
             }
 
             cardsData.shift();
-            io.emit('card-choice', choice, cardsData, values)
+            io.emit('card-choice', choice, cardsData, values);
         }
     });
 
@@ -81,42 +81,19 @@ io.on('connection', (socket) => {
 
     const nextTurn = () => {
         turn = turnCounter++ % players.length;
-        players[turn].emit('your_turn');
+        players[turn].emit('your-turn');
     }
 
     socket.on('pass-turn', () => {
         if (players[turn] == socket) {
             nextTurn();
         }
-    })
-
-    socket.on('disconnect', () => {
-        // users.splice(users.indexOf(socket), 1)
-        // console.log(users)
-
-        // users.forEach(user => {
-        //     Object.values(user)
-        //         .filter(value => {
-        //             Object.values(value)
-        //                 .filter(v => {
-        //                     // v.id !== socket.id
-        //                     // console.log(v.id)
-        //                     // console.log(socket.id)
-        //                     // v.id !== socket.id
-        //                 });
-        //         })
-        // })
-        // console.log(users)
-        // users = users.filter(u => {
-        //     console.log(u.)
-        // });
-        io.emit('new-user', users)
-    })
+    });
 });
 
 const changeValues = (data) => {
     data.map(d => {
-        // Meerder replaces in 1: https://stackoverflow.com/questions/15604140/replace-multiple-strings-with-multiple-other-strings
+        // Multiple replaces in 1: https://stackoverflow.com/questions/15604140/replace-multiple-strings-with-multiple-other-strings
         const changes = {
             10: 91,
             JACK: 92,

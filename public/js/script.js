@@ -22,7 +22,7 @@ const flipContainer = document.querySelector('#flip-card-inner');
 
 if (window.location.pathname === '/game') {
     leaveRoomButton.addEventListener('click', () => {
-        socket.emit('disconnect')
+        socket.emit('leave-room')
     })
 
     higherLowerButtons.forEach(button => {
@@ -30,20 +30,11 @@ if (window.location.pathname === '/game') {
             const clickValue = e.target.id;
             socket.emit('card-choice', {
                 choice: clickValue
-            })
+            });
+            socket.emit('pass-turn');
         });
     });
 }
-
-socket.emit('join-room');
-
-socket.on('joined-room', (users, room) => {
-    console.log(users)
-});
-
-// socket.on('', () => {
-
-// });
 
 socket.on('card-choice', data => {
     flipContainer.classList.add('flip');
