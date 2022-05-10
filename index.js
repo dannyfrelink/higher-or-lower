@@ -40,16 +40,6 @@ app.get('/game', async (req, res) => {
     });
 });
 
-
-// if (users) {
-//     scores = users.map(user => {
-//         return {
-//             [user.id]: 0
-//         }
-//     })
-// }
-// console.log(scores)
-
 let users = {};
 let turn = -1;
 
@@ -60,7 +50,6 @@ io.on('connection', (socket) => {
     });
 
     socket.on('card-choice', (choice) => {
-        // console.log()
         if (cardsData) {
             const values = {
                 valueBase: cardsData[0].value,
@@ -70,20 +59,15 @@ io.on('connection', (socket) => {
             if (correctGuess) {
                 Object.keys(users).filter(user => {
                     if (user == choice.id) {
-                        // console.log()
                         users[user]++;
                     }
                 });
-            } else {
-                console.log('fout');
             }
 
             cardsData.shift();
             io.emit('card-choice', choice, cardsData, values);
         }
     });
-
-
 
     socket.on('pass-turn', () => {
         turn += 1;

@@ -1,30 +1,13 @@
 const socket = io();
-// Home page
-// const usernameForm = document.querySelector('#username');
-// const usernameInput = document.querySelector('#username-input');
-
-// if (window.location.pathname === '/') {
-//     usernameForm.addEventListener('submit', () => {
-//         const username = usernameInput.value;
-//         socket.emit('new-user', {
-//             username
-//         });
-//     });
-// }
 
 // Game page
 const headerText = document.querySelector('h1');
-// const leaveRoomButton = document.querySelector('#leave-room');
 const higherLowerButtons = document.querySelectorAll('button');
 const openCard = document.querySelector('main>img');
 const closedCard = document.querySelector('#flip-card-inner img:last-of-type');
 const flipContainer = document.querySelector('#flip-card-inner');
 
 if (window.location.pathname === '/game') {
-    // leaveRoomButton.addEventListener('click', () => {
-    //     socket.emit('disconnect');
-    // });
-
     socket.emit('pass-turn');
 
     higherLowerButtons.forEach(button => {
