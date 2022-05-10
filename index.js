@@ -35,6 +35,7 @@ const fetchCards = () => {
 fetchCards()
 
 app.get('/game', async (req, res) => {
+    console.log(cardsData)
     res.render('game', {
         data: cardsData
     });
@@ -51,29 +52,13 @@ app.get('/game', async (req, res) => {
 // console.log(scores)
 
 let users = {};
+let turn = -1;
 
 io.on('connection', (socket) => {
-    // users.forEach(u => {
-    if (!(socket.id in users)) {
-        console.log(users);
-        users[socket.id] = { id: socket.id }
-        // users['id'] = socket.id
-        // users = Object.assign({ id: socket.id })
-        // users = {
-        //     ...users,
-        //     id: socket.id
-        // }
-    }
-    // })
-
-    socket.on('disconnect', socket => {
-        delete users[socket.id]
-    })
-
-
-    // socket.on('set-name', (name) => {
-
-    // });
+    users[socket.id] = 'id';
+    socket.on('disconnect', () => {
+        delete users[socket.id];
+    });
 
     socket.on('card-choice', (choice) => {
         if (cardsData) {
@@ -93,15 +78,18 @@ io.on('connection', (socket) => {
         }
     });
 
-    let turn = 0;
+
 
     socket.on('pass-turn', () => {
-        console.log(users)
-        turn++
-        if (turn > Object.keys(users).length) {
+        console.log('old turn', turn)
+        turn += 1;
+        console.log('updated turn', turn)
+        if (turn === Object.keys(users).length) {
+            console.log('blaat');
             turn = 0;
         }
-        io.emit('turn', Object.values(users)[turn]);
+        console.log('final turn', turn)
+        io.emit('turn', Object.keys(users)[turn]);
     });
 });
 
