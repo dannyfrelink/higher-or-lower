@@ -35,13 +35,12 @@ const fetchCards = () => {
 fetchCards()
 
 app.get('/game', async (req, res) => {
-    console.log(cardsData)
     res.render('game', {
         data: cardsData
     });
 });
 
-// let scores
+
 // if (users) {
 //     scores = users.map(user => {
 //         return {
@@ -55,12 +54,13 @@ let users = {};
 let turn = -1;
 
 io.on('connection', (socket) => {
-    users[socket.id] = 'id';
+    users[socket.id] = 0;
     socket.on('disconnect', () => {
         delete users[socket.id];
     });
 
     socket.on('card-choice', (choice) => {
+        // console.log()
         if (cardsData) {
             const values = {
                 valueBase: cardsData[0].value,
@@ -68,7 +68,12 @@ io.on('connection', (socket) => {
             }
             const correctGuess = (choice.choice === 'higher' && values.valueGuess >= values.valueBase) || (choice.choice === 'lower' && values.valueGuess <= values.valueBase);
             if (correctGuess) {
-                console.log('correct');
+                Object.keys(users).filter(user => {
+                    if (user == choice.id) {
+                        // console.log()
+                        users[user]++;
+                    }
+                });
             } else {
                 console.log('fout');
             }
@@ -81,14 +86,10 @@ io.on('connection', (socket) => {
 
 
     socket.on('pass-turn', () => {
-        console.log('old turn', turn)
         turn += 1;
-        console.log('updated turn', turn)
         if (turn === Object.keys(users).length) {
-            console.log('blaat');
             turn = 0;
         }
-        console.log('final turn', turn)
         io.emit('turn', Object.keys(users)[turn]);
     });
 });
@@ -113,10 +114,8 @@ const changeValues = (data) => {
 const filterData = (data) => {
     return data.map(card => {
         return {
-            // code: card.code,
             image: card.image,
             value: card.value,
-            // suit: card.suit
         }
     });
 }

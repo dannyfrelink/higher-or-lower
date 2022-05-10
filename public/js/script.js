@@ -31,7 +31,8 @@ if (window.location.pathname === '/game') {
         button.addEventListener('click', (e) => {
             const clickValue = e.target.id;
             socket.emit('card-choice', {
-                choice: clickValue
+                choice: clickValue,
+                id: socket.id
             });
             socket.emit('pass-turn');
         });
