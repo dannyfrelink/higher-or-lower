@@ -1,17 +1,23 @@
 const socket = io();
 
 // Game page
-const headerText = document.querySelector('h1');
+const playerId = document.querySelector('header p');
+const headerText = document.querySelector('header h1');
 const higherLowerButtons = document.querySelectorAll('button');
 const openCard = document.querySelector('main>img');
 const closedCard = document.querySelector('#flip-card-inner img:last-of-type');
 const flipContainer = document.querySelector('#flip-card-inner');
 
 if (window.location.pathname === '/game') {
+    socket.on('connect', () => {
+        playerId.textContent = `Your id: ${socket.id}`;
+    });
+
     socket.emit('pass-turn');
 
     higherLowerButtons.forEach(button => {
         button.addEventListener('click', (e) => {
+            // console.log(socket.id)
             const clickValue = e.target.id;
             socket.emit('card-choice', {
                 choice: clickValue,
