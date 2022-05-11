@@ -33,6 +33,9 @@ if (window.location.pathname === '/game') {
             .forEach(user => {
                 const userScore = document.createElement('li');
                 userScore.textContent = `${user[0]}: ${user[1]}`;
+                if (user[0] === socket.id) {
+                    userScore.classList.add('player');
+                }
                 scoreboard.appendChild(userScore);
             });
 

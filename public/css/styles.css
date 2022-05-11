@@ -8,10 +8,10 @@
 body {
     background-color: bisque;
     color: #AC3B61;
-    font-weight: bold;
 }
 
 header p {
+    font-weight: bold;
     font-style: italic;
     position: absolute;
     left: 1em;
@@ -32,6 +32,10 @@ header section {
 
 header section ol {
     list-style-position: inside;
+}
+
+header section ol li.player {
+    font-weight: bold;
 }
 
 main {
