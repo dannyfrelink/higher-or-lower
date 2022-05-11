@@ -3,6 +3,7 @@ const socket = io();
 // Game page
 const playerId = document.querySelector('header p');
 const headerText = document.querySelector('header h1');
+const scoreboard = document.querySelector('header ul');
 const higherLowerButtons = document.querySelectorAll('button');
 const openCard = document.querySelector('main>img');
 const closedCard = document.querySelector('#flip-card-inner img:last-of-type');
@@ -17,7 +18,6 @@ if (window.location.pathname === '/game') {
 
     higherLowerButtons.forEach(button => {
         button.addEventListener('click', (e) => {
-            // console.log(socket.id)
             const clickValue = e.target.id;
             socket.emit('card-choice', {
                 choice: clickValue,
@@ -27,12 +27,18 @@ if (window.location.pathname === '/game') {
         });
     });
 
-    socket.on('turn', (id) => {
+    socket.on('turn', (id, users) => {
+        scoreboard.innerHTML = '';
+        Object.entries(users)
+            .forEach(user => {
+                const userScore = document.createElement('li');
+                userScore.textContent = `${user[0]}: ${user[1]}`;
+                scoreboard.appendChild(userScore);
+            });
         console.log('New line:')
-        console.log('Opgeslagen id: ', id)
-        console.log('Socket id nu: ', socket.id)
+        console.log('Whos turn: ', id)
+        console.log('My id: ', socket.id)
 
-        console.log(headerText)
         if (socket.id !== id) {
             headerText.textContent = 'Please wait for your opponents turn';
             higherLowerButtons.forEach(button => {

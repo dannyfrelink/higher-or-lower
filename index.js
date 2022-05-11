@@ -74,7 +74,7 @@ io.on('connection', (socket) => {
         if (turn === Object.keys(users).length) {
             turn = 0;
         }
-        io.emit('turn', Object.keys(users)[turn]);
+        io.emit('turn', Object.keys(users)[turn], users);
     });
 });
 

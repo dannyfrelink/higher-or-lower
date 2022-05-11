@@ -8,10 +8,10 @@
 body {
     background-color: bisque;
     color: #AC3B61;
+    font-weight: bold;
 }
 
 header p {
-    font-weight: bold;
     font-style: italic;
     position: absolute;
     left: 1em;
@@ -22,6 +22,16 @@ header h1 {
     font-size: 2.5rem;
     width: fit-content;
     margin: 2.5rem auto 0;
+}
+
+header section {
+    position: absolute;
+    top: 0.75em;
+    right: 1em;
+}
+
+header section ul {
+    list-style-position: inside;
 }
 
 main {
