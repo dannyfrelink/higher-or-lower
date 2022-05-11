@@ -3,7 +3,7 @@ const socket = io();
 // Game page
 const playerId = document.querySelector('header p');
 const headerText = document.querySelector('header h1');
-const scoreboard = document.querySelector('header ul');
+const scoreboard = document.querySelector('header ol');
 const higherLowerButtons = document.querySelectorAll('button');
 const openCard = document.querySelector('main>img');
 const closedCard = document.querySelector('#flip-card-inner img:last-of-type');

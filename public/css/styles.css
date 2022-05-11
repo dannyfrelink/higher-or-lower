@@ -30,7 +30,7 @@ header section {
     right: 1em;
 }
 
-header section ul {
+header section ol {
     list-style-position: inside;
 }
 
