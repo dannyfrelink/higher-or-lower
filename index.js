@@ -70,11 +70,15 @@ io.on('connection', (socket) => {
     });
 
     socket.on('pass-turn', () => {
+        const sortedUsers = Object.entries(users)
+            .sort(([, a], [, b]) => b - a)
+            .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
+
         turn += 1;
         if (turn === Object.keys(users).length) {
             turn = 0;
         }
-        io.emit('turn', Object.keys(users)[turn], users);
+        io.emit('turn', Object.keys(users)[turn], sortedUsers);
     });
 });
 

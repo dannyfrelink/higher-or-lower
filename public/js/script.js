@@ -28,16 +28,13 @@ if (window.location.pathname === '/game') {
     });
 
     socket.on('turn', (id, users) => {
-        scoreboard.innerHTML = '';
+        scoreboard.textContent = '';
         Object.entries(users)
             .forEach(user => {
                 const userScore = document.createElement('li');
                 userScore.textContent = `${user[0]}: ${user[1]}`;
                 scoreboard.appendChild(userScore);
             });
-        console.log('New line:')
-        console.log('Whos turn: ', id)
-        console.log('My id: ', socket.id)
 
         if (socket.id !== id) {
             headerText.textContent = 'Please wait for your opponents turn';
