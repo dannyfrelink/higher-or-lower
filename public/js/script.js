@@ -1,8 +1,9 @@
 const socket = io();
 
 // Game page
-const playerId = document.querySelector('header p');
+const playerId = document.querySelector('header #your-id');
 const headerText = document.querySelector('header h1');
+const lastGuess = document.querySelector('header #guess');
 const scoreboard = document.querySelector('header ol');
 const higherLowerButtons = document.querySelectorAll('button');
 const openCard = document.querySelector('main>img');
@@ -53,6 +54,8 @@ if (window.location.pathname === '/game') {
     })
 
     socket.on('card-choice', (choice, data) => {
+        const guess = choice.choice
+        lastGuess.textContent = `Last guess: ${guess.charAt(0).toUpperCase()}${guess.slice(1)}`;
         flipContainer.classList.add('flip');
 
         setTimeout(() => {
