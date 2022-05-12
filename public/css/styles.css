@@ -8,6 +8,25 @@
 body {
     background-color: bisque;
     color: #AC3B61;
+    height: 100vh;
+}
+
+#home {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#home a {
+    display: block;
+    width: fit-content;
+    font-size: 6em;
+    font-weight: bold;
+    text-decoration: none;
+    border: 10px solid #AC3B61;
+    border-radius: 0.25em;
+    color: #AC3B61;
+    padding: 0.25em 0.5em;
 }
 
 header p {
@@ -80,6 +99,8 @@ main div button::after {
     margin-left: 0.75vw;
 }
 
+#home a:hover,
+#home a:focus,
 main div button:hover,
 main div button:focus {
     outline: none;
