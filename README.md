@@ -23,7 +23,7 @@ I decided to go for my sketch at the bottom, which was a higher or lower game. T
 
 You can find all the progression of my work documented in my [Wiki](https://github.com/dannyfrelink/higher-or-lower/wiki/Proces).
 
-## Data Modeling
+## :pencil2: Data Modeling
 
 To show all the requests and responses on my application, I decided to create a Data Model. I split my application into three parts, which are: the client, the server and the Deck of Cards API. I then added all connections between these three with arrows and explained what happend on this conncetion. Some of the data was getting stored locally, so these are shown on there as well. At last, I added the client interactions to the model as well.
 
