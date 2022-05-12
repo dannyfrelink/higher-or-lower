@@ -21,7 +21,7 @@ const fetchCards = () => {
     return fetch('https://deckofcardsapi.com/api/deck/new/shuffle/')
         .then(res => res.json())
         .then(dataShuffle => {
-            let cardsAPI = `https://deckofcardsapi.com/api/deck/${dataShuffle.deck_id}/draw/?count=52`;
+            let cardsAPI = `https://deckofcardsapi.com/api/deck/${dataShuffle.deck_id}/draw/?count=3`;
             return fetch(cardsAPI)
                 .then(res => res.json())
                 .then(data => changeValues(data.cards))
@@ -34,7 +34,7 @@ const fetchCards = () => {
 }
 fetchCards()
 
-app.get('/game', async (req, res) => {
+app.get('/game', (req, res) => {
     res.render('game', {
         data: cardsData
     });
@@ -79,6 +79,10 @@ io.on('connection', (socket) => {
             turn = 0;
         }
         io.emit('turn', Object.keys(users)[turn], sortedUsers);
+        if (cardsData.length === 1) {
+            io.emit('game-finished', sortedUsers);
+            fetchCards();
+        }
     });
 });
 
