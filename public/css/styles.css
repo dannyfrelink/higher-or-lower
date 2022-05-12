@@ -12,19 +12,25 @@ body {
 
 #home {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
 }
 
+#home h1 {
+    font-size: 10em;
+    margin-bottom: 5rem;
+}
+
 #home a {
     display: block;
     width: fit-content;
-    font-size: 6em;
+    font-size: 4em;
     font-weight: bold;
     text-decoration: none;
-    border: 10px solid #AC3B61;
-    border-radius: 0.25em;
+    border: 8px solid #AC3B61;
+    border-radius: 0.4em;
     color: #AC3B61;
     padding: 0.25em 0.5em;
 }
