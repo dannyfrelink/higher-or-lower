@@ -21,7 +21,7 @@ const fetchCards = () => {
     return fetch('https://deckofcardsapi.com/api/deck/new/shuffle/')
         .then(res => res.json())
         .then(dataShuffle => {
-            let cardsAPI = `https://deckofcardsapi.com/api/deck/${dataShuffle.deck_id}/draw/?count=40`;
+            let cardsAPI = `https://deckofcardsapi.com/api/deck/${dataShuffle.deck_id}/draw/?count=52`;
             return fetch(cardsAPI)
                 .then(res => res.json())
                 .then(data => changeValues(data.cards))
