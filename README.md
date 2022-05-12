@@ -1,10 +1,12 @@
-# Real Time App
+# Higher or Lower
+
+I've created a higher or lower game into real time application. 
 
 ## 📋 Table of Contents
 
 * [Concept](https://github.com/dannyfrelink/higher-or-lower#-concept)
 * [Process (Wiki)](https://github.com/dannyfrelink/higher-or-lower#%EF%B8%8F-process-wiki)
-* [Data Modeling]()
+* [Data Modeling](https://github.com/dannyfrelink/higher-or-lower#pencil2-data-modeling)
 * [Wishlist](https://github.com/dannyfrelink/pwa-foodie-app#-wishlist)
 * [Installation](https://github.com/dannyfrelink/higher-or-lower#-installation)
 * [License](https://github.com/dannyfrelink/higher-or-lower#-license)
@@ -23,7 +25,7 @@ I decided to go for my sketch at the bottom, which was a higher or lower game. T
 
 You can find all the progression of my work documented in my [Wiki](https://github.com/dannyfrelink/higher-or-lower/wiki/Proces).
 
-## :pencil2: Data Modeling
+## ✏️ Data Modeling
 
 To show all the requests and responses on my application, I decided to create a Data Model. I split my application into three parts, which are: the client, the server and the Deck of Cards API. I then added all connections between these three with arrows and explained what happend on this conncetion. Some of the data was getting stored locally, so these are shown on there as well. At last, I added the client interactions to the model as well.
 
