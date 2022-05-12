@@ -8,13 +8,13 @@
 body {
     background-color: bisque;
     color: #AC3B61;
-    height: 100vh;
 }
 
 #home {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh;
 }
 
 #home a {
