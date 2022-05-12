@@ -114,6 +114,17 @@ main div button:focus {
     color: white;
 }
 
+
+main div button:disabled {
+    opacity: 0.7;
+}
+
+main div button:disabled:hover {
+    cursor: auto;
+    background-color: unset;
+    color: #AC3B61;
+}
+
 main #flip-card {
     background-color: transparent;
     width: 25vw;
