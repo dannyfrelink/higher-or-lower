@@ -7,7 +7,7 @@ I've created a higher or lower game into real time application.
 * [Concept](https://github.com/dannyfrelink/higher-or-lower#-concept)
 * [Process (Wiki)](https://github.com/dannyfrelink/higher-or-lower#%EF%B8%8F-process-wiki)
 * [Data Modeling](https://github.com/dannyfrelink/higher-or-lower#%EF%B8%8F-data-modeling)
-* [Wishlist](https://github.com/dannyfrelink/pwa-foodie-app#-wishlist)
+* [Wishlist](https://github.com/dannyfrelink/higher-or-lower#-wishlist)
 * [Installation](https://github.com/dannyfrelink/higher-or-lower#-installation)
 * [License](https://github.com/dannyfrelink/higher-or-lower#-license)
 * [Resources](https://github.com/dannyfrelink/higher-or-lower#-resources)
