@@ -42,7 +42,7 @@ For example, I wanted to create rooms for my game. These rooms were supposed to 
 If you want to use my code for your own, you can clone the repository as a local file:
 
 ```
-    git clone https://github.com/dannyfrelink/drag-drop
+    git clone https://github.com/dannyfrelink/higher-or-lower
 ```
 
 You then need to install all NPM packages:
